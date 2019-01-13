@@ -15,7 +15,11 @@ security camera for your Raspberry Pi or laptop.
 ## Installing:
 ### Download the Binary
 1. [Click here to download](https://github.com/Topazoo/Webcam_Motion_Detector/raw/master/binaries/Webcam%20Motion%20Capture.zip)
-2. Extract and run
+2. Install opencv
+```
+sudo apt-get install python-opencv
+```
+3. Extract and run
 
 ### From the Command Line
 1. Clone the repository

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import numpy as np
 import cv2
 import datetime
 
@@ -12,7 +11,7 @@ class FrameWriter(object):
                     "XVID" : ".avi"
                 }
 
-    def __init__(self, fileindicator, codec):
+    def __init__(self, fileindicator="", codec="XVID"):
         # Build filename
         self.filename = fileindicator +" {}" + self.codec_map[codec]
         # Set codec

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-import numpy as np
 import cv2
 from framewriter import FrameWriter
+from motiondetector import Motion_Detector
 
 class Webcam(object):
     ''' Class for interfacing with a webcam '''
@@ -12,6 +12,11 @@ class Webcam(object):
         self.camera = cv2.VideoCapture(camera_num)
         # Instantiate helper class for writing videos
         self.framewriter = FrameWriter(fileindicator, codec)
+
+    def motion_capture(self):
+        m = Motion_Detector(self.camera)
+        m.read()
+        self.close()
 
     def read(self, show=False, write=False):
         ''' Read camera footage '''

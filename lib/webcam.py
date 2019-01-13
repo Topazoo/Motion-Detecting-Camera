@@ -13,12 +13,15 @@ class Webcam(object):
         # Instantiate helper class for writing videos
         self.framewriter = FrameWriter(fileindicator, codec)
 
-    def motion_capture(self):
-        m = Motion_Detector(self.camera)
-        m.read()
+    def motion_capture(self, show, write, contour):
+        # Instantiate a Motion Detector
+        motion_detector = Motion_Detector(self.camera)
+        # Read with specified options
+        motion_detector.read(show, write, contour)
+
         self.close()
 
-    def read(self, show=False, write=False):
+    def read(self):
         ''' Read camera footage '''
 
         # While the camera is open
@@ -27,15 +30,9 @@ class Webcam(object):
             ret, frame = self.camera.read()
             # If a frame was received
             if ret==True:
-                # Display on screen if True
-                if show:
-                    cv2.imshow('frame',frame)
+                cv2.imshow('frame',frame)
 
-                    if cv2.waitKey(1) & 0xFF == ord('q'):
-                        break
-                # Start writing if true
-                if write:
-                    self.write(show)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
             else:
                 break

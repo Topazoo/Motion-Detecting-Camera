@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 import sys
-from lib.webcam import Webcam
+from lib.clahandler import CLA_Handler, Dispatcher
 
-def main(cla=" ".join(sys.argv)):
+def main(cla=" ".join(sys.argv[1::])):
 
-    webcam = Webcam(1)
+    # Read CLAs
+    cla_handler = CLA_Handler()
+    commands = cla_handler.parse(cla)
 
-    try:
-        webcam.motion_capture()
-    except KeyboardInterrupt:
-        webcam.close()
-    
+    # Execute CLAs
+    dispatcher = Dispatcher()
+    dispatcher.run(commands)
 
 main()

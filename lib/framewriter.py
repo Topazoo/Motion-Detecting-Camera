@@ -26,7 +26,6 @@ class FrameWriter(object):
         date = datetime.datetime.now().strftime("%c")
         # Use it for the file name
         self.filename = self.filename.format(date)
-        #TODO - get framerate and resolution from CLAs
 
         # Close previous output
         if self.out:

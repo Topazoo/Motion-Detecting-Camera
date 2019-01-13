@@ -34,13 +34,17 @@ class Motion_Detector(object):
             # and the original
             (x, y, w, h) = cv2.boundingRect(c)
             cv2.rectangle(gray, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+            # If specified, add contour to frame
             if with_contour:
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+            # Signal contour found
             found_contour = True
 
         return found_contour
 
-    def read(self, show=False, write=True):
+    def read(self, show=False, write=True, contour=False):
         ''' Read the camera feed '''
 
         while(self.camera.isOpened()):
@@ -61,22 +65,25 @@ class Motion_Detector(object):
                 self.first_frame = gray
                 continue
 
-            res = self.compute_frame(gray, frame)
+            # Check if movement in frame
+            res = self.compute_frame(gray, frame, with_contour=contour)
 
             # Draw the timestamp on the frame
             cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
                 (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
 
+            # If recording and still moving - Write
             if self.is_moving and res:
                 self.framewriter.write_output(frame)
 
-            # Look for motion in the frame, optional write if found
+            # If not recording and moving - Record
             elif res and write and not self.is_moving:
                 self.framewriter = FrameWriter()
                 self.framewriter.open_output()
                 self.framewriter.write_output(frame)
                 self.is_moving = True
 
+            # If recording and not moving - Stop
             elif not res and write and self.is_moving:
                 self.framewriter.close_output()
                 self.is_moving = False
@@ -89,3 +96,6 @@ class Motion_Detector(object):
             key = cv2.waitKey(1) & 0xFF
             if key == ord("q"):
                 break
+
+# Special Thanks to Adrian Rosebrock
+# https://www.pyimagesearch.com/2015/05/25/basic-motion-detection-and-tracking-with-python-and-opencv/

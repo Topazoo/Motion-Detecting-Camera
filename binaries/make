@@ -1,0 +1,17 @@
+#!/bin/bash
+
+FILE="$PWD/../lib/app.py"
+NAME="Webcam Motion Capture"
+
+rm "$NAME" "$NAME.zip"
+
+source ../venv/bin/activate
+
+pyinstaller --onefile $FILE
+
+mv dist/app "$NAME"
+rm -rf dist build app.spec
+
+zip "$NAME.zip" "$NAME"
+
+rm "$NAME"

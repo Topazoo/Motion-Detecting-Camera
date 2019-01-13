@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from lib.webcam import Webcam
+from lib.src.webcam import Webcam
 
 class CLA_Handler(object):
     ''' Class to parse command line arguments '''

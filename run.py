@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import sys
-from lib.clahandler import CLA_Handler, Dispatcher
+from lib.interface.clahandler import CLA_Handler, Dispatcher
 
-def main(cla=" ".join(sys.argv[1::])):
+def run(cla=" ".join(sys.argv[1::])):
 
     # Read CLAs
     cla_handler = CLA_Handler()
@@ -12,4 +12,4 @@ def main(cla=" ".join(sys.argv[1::])):
     dispatcher = Dispatcher()
     dispatcher.run(commands)
 
-main()
+run()
